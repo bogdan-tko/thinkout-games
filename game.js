@@ -1,16 +1,15 @@
 /* ── Tile config ─────────────────────── */
 const TILES = {
-  2:    { name: 'Brick',   emoji: '🧱' },
-  4:    { name: 'Wall',    emoji: '🪨' },
-  8:    { name: 'Room',    emoji: '🚪' },
-  16:   { name: 'Garage',  emoji: '🔧' },
-  32:   { name: 'House',   emoji: '🏠' },
-  64:   { name: 'Office',  emoji: '🏢' },
-  128:  { name: 'HQ',      emoji: '🏛️' },
-  256:  { name: 'Fort',    emoji: '🏰' },
-  512:  { name: 'Tower',   emoji: '🗼' },
-  1024: { name: 'Citadel', emoji: '🏯' },
-  2048: { name: 'Polis',   emoji: '🌆' },
+  2: { name: "Brick", emoji: "🧱" },
+  4: { name: "Wall", emoji: "🪨" },
+  8: { name: "Room", emoji: "🚪" },
+  16: { name: "Garage", emoji: "🔧" },
+  32: { name: "Office", emoji: "🏢" },
+  64: { name: "HQ", emoji: "🏛️" },
+  128: { name: "Fort", emoji: "🏰" },
+  256: { name: "Tower", emoji: "🗼" },
+  512: { name: "Citadel", emoji: "🏯" },
+  1024: { name: "Polis", emoji: "🌆" },
 };
 
 /* ── Constants ───────────────────────── */
@@ -20,18 +19,18 @@ const PADDING = 10;
 const SLIDE_MS = 100;
 const MERGE_MS = 150;
 const NEW_MS = 200;
-const STORAGE_KEY = 'thinkout2048';
-const BEST_KEY = 'thinkout2048_best';
+const STORAGE_KEY = "thinkout1024";
+const BEST_KEY = "thinkout1024_best";
 
 /* Directions: [dr, dc] */
 const DIR = { up: [-1, 0], right: [0, 1], down: [1, 0], left: [0, -1] };
 
 /* ── DOM refs ────────────────────────── */
-const board = document.getElementById('board');
-const scoreEl = document.getElementById('score');
-const bestEl = document.getElementById('best');
-const gameOverOverlay = document.getElementById('gameOverOverlay');
-const winOverlay = document.getElementById('winOverlay');
+const board = document.getElementById("board");
+const scoreEl = document.getElementById("score");
+const bestEl = document.getElementById("best");
+const gameOverOverlay = document.getElementById("gameOverOverlay");
+const winOverlay = document.getElementById("winOverlay");
 
 /* ── Game state ──────────────────────── */
 let grid; // 4x4 array of values (0 = empty)
@@ -55,35 +54,46 @@ function cellTop(row) {
   return PADDING + row * (cellSize + GAP);
 }
 
-function emojiSize() { return cellSize * 0.28; }
-function nameSize() { return cellSize * 0.16; }
+function emojiSize() {
+  return cellSize * 0.28;
+}
+function nameSize() {
+  return cellSize * 0.16;
+}
 
 function makeTileHTML(val) {
-  const cfg = TILES[val] || { name: String(val), emoji: '❓' };
-  return `<span class="tile-emoji" style="font-size:${emojiSize()}px">${cfg.emoji}</span>` +
-         `<span class="tile-name" style="font-size:${nameSize()}px">${cfg.name}</span>`;
+  const cfg = TILES[val] || { name: String(val), emoji: "❓" };
+  return (
+    `<span class="tile-emoji" style="font-size:${emojiSize()}px">${cfg.emoji}</span>` +
+    `<span class="tile-name" style="font-size:${nameSize()}px">${cfg.name}</span>`
+  );
 }
 
 function createTileEl(val, row, col, className) {
-  const el = document.createElement('div');
+  const el = document.createElement("div");
   el.className = `tile ${className}`;
   el.dataset.value = val;
   el.innerHTML = makeTileHTML(val);
-  el.style.width = cellSize + 'px';
-  el.style.height = cellSize + 'px';
-  el.style.left = cellLeft(col) + 'px';
-  el.style.top = cellTop(row) + 'px';
+  el.style.width = cellSize + "px";
+  el.style.height = cellSize + "px";
+  el.style.left = cellLeft(col) + "px";
+  el.style.top = cellTop(row) + "px";
   board.appendChild(el);
   return el;
 }
 
 function clearAnimTiles() {
-  board.querySelectorAll('.moveTile, .mergeTile, .newTile').forEach(el => el.remove());
+  board
+    .querySelectorAll(".moveTile, .mergeTile, .newTile")
+    .forEach((el) => el.remove());
 }
 
 /* ── Persistence ─────────────────────── */
 function saveGame() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({ grid, score, won, keepPlaying }));
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({ grid, score, won, keepPlaying }),
+  );
   if (score > bestScore) {
     bestScore = score;
     localStorage.setItem(BEST_KEY, String(bestScore));
@@ -92,7 +102,7 @@ function saveGame() {
 }
 
 function loadGame() {
-  bestScore = parseInt(localStorage.getItem(BEST_KEY) || '0', 10);
+  bestScore = parseInt(localStorage.getItem(BEST_KEY) || "0", 10);
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
     try {
@@ -102,7 +112,9 @@ function loadGame() {
       won = data.won || false;
       keepPlaying = data.keepPlaying || false;
       return true;
-    } catch { /* fall through */ }
+    } catch {
+      /* fall through */
+    }
   }
   return false;
 }
@@ -110,11 +122,11 @@ function loadGame() {
 /* ── Rendering (static layer) ────────── */
 function renderStaticTiles() {
   // Remove any existing static tiles
-  board.querySelectorAll('.staticTile').forEach(el => el.remove());
+  board.querySelectorAll(".staticTile").forEach((el) => el.remove());
   for (let r = 0; r < SIZE; r++) {
     for (let c = 0; c < SIZE; c++) {
       if (grid[r][c]) {
-        const el = createTileEl(grid[r][c], r, c, 'staticTile');
+        const el = createTileEl(grid[r][c], r, c, "staticTile");
         el.style.zIndex = 1;
       }
     }
@@ -134,8 +146,7 @@ function emptyGrid() {
 function getEmptyCells() {
   const cells = [];
   for (let r = 0; r < SIZE; r++)
-    for (let c = 0; c < SIZE; c++)
-      if (!grid[r][c]) cells.push([r, c]);
+    for (let c = 0; c < SIZE; c++) if (!grid[r][c]) cells.push([r, c]);
   return cells;
 }
 
@@ -158,8 +169,10 @@ function canMove() {
 }
 
 function findFarthest(r, c, dr, dc) {
-  let prevR = r, prevC = c;
-  let nr = r + dr, nc = c + dc;
+  let prevR = r,
+    prevC = c;
+  let nr = r + dr,
+    nc = c + dc;
   while (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && !grid[nr][nc]) {
     prevR = nr;
     prevC = nc;
@@ -185,12 +198,12 @@ function doMove(direction) {
 
   let moved = false;
   let scoreGain = 0;
-  const moves = [];     // { fromR, fromC, toR, toC, val }
-  const merges = [];    // { r, c, val (doubled) }
+  const moves = []; // { fromR, fromC, toR, toC, val }
+  const merges = []; // { r, c, val (doubled) }
   const merged = new Set(); // "r,c" of cells that already received a merge
 
   // Work on a copy so we can track moves
-  const oldGrid = grid.map(row => [...row]);
+  const oldGrid = grid.map((row) => [...row]);
   grid = emptyGrid();
 
   for (const r of rows) {
@@ -202,13 +215,16 @@ function doMove(direction) {
 
       // Check merge: next cell in new grid has same value & hasn't merged yet
       if (
-        next.r >= 0 && next.r < SIZE && next.c >= 0 && next.c < SIZE &&
+        next.r >= 0 &&
+        next.r < SIZE &&
+        next.c >= 0 &&
+        next.c < SIZE &&
         grid[next.r][next.c] === val &&
-        !merged.has(next.r + ',' + next.c)
+        !merged.has(next.r + "," + next.c)
       ) {
         // Merge
         grid[next.r][next.c] = val * 2;
-        merged.add(next.r + ',' + next.c);
+        merged.add(next.r + "," + next.c);
         scoreGain += val * 2;
         moves.push({ fromR: r, fromC: c, toR: next.r, toC: next.c, val });
         merges.push({ r: next.r, c: next.c, val: val * 2 });
@@ -216,7 +232,13 @@ function doMove(direction) {
       } else {
         // Just slide
         grid[farthest.r][farthest.c] = val;
-        moves.push({ fromR: r, fromC: c, toR: farthest.r, toC: farthest.c, val });
+        moves.push({
+          fromR: r,
+          fromC: c,
+          toR: farthest.r,
+          toC: farthest.c,
+          val,
+        });
         if (r !== farthest.r || c !== farthest.c) moved = true;
       }
     }
@@ -232,19 +254,19 @@ function doMove(direction) {
 
   // Clear previous animation tiles, hide static tiles
   clearAnimTiles();
-  board.querySelectorAll('.staticTile').forEach(el => el.remove());
+  board.querySelectorAll(".staticTile").forEach((el) => el.remove());
 
   // Phase 1: Create moveTile elements at OLD positions
-  const moveEls = moves.map(m => {
-    const el = createTileEl(m.val, m.fromR, m.fromC, 'moveTile');
+  const moveEls = moves.map((m) => {
+    const el = createTileEl(m.val, m.fromR, m.fromC, "moveTile");
     return { el, toR: m.toR, toC: m.toC };
   });
 
   // Trigger slide by setting new positions (next frame for transition)
   requestAnimationFrame(() => {
     moveEls.forEach(({ el, toR, toC }) => {
-      el.style.left = cellLeft(toC) + 'px';
-      el.style.top = cellTop(toR) + 'px';
+      el.style.left = cellLeft(toC) + "px";
+      el.style.top = cellTop(toR) + "px";
     });
   });
 
@@ -257,11 +279,11 @@ function doMove(direction) {
     if (scoreGain) addScore(scoreGain);
 
     // Create merge animations
-    merges.forEach(m => {
-      const el = createTileEl(m.val, m.r, m.c, 'mergeTile');
+    merges.forEach((m) => {
+      const el = createTileEl(m.val, m.r, m.c, "mergeTile");
       // Force reflow then trigger scale
       el.getBoundingClientRect();
-      el.style.transform = 'scale(1)';
+      el.style.transform = "scale(1)";
     });
 
     // Render static tiles (with updated merged values)
@@ -270,15 +292,15 @@ function doMove(direction) {
     // Hide merge tile statics briefly (mergeTile is on top)
     // After merge animation, remove mergeTiles
     setTimeout(() => {
-      board.querySelectorAll('.mergeTile').forEach(el => el.remove());
+      board.querySelectorAll(".mergeTile").forEach((el) => el.remove());
     }, MERGE_MS);
 
     // Spawn new tile
     const spawned = spawnRandom();
     if (spawned) {
-      const el = createTileEl(spawned.val, spawned.r, spawned.c, 'newTile');
+      const el = createTileEl(spawned.val, spawned.r, spawned.c, "newTile");
       el.getBoundingClientRect();
-      el.style.transform = 'scale(1)';
+      el.style.transform = "scale(1)";
       setTimeout(() => {
         el.remove();
         renderStaticTiles();
@@ -286,13 +308,13 @@ function doMove(direction) {
     }
 
     // Check win / game over
-    const has2048 = grid.some(row => row.some(v => v >= 2048));
-    if (has2048 && !won && !keepPlaying) {
+    const hasWin = grid.some((row) => row.some((v) => v >= 1024));
+    if (hasWin && !won && !keepPlaying) {
       won = true;
-      winOverlay.classList.add('visible');
+      winOverlay.classList.add("visible");
     }
     if (!canMove()) {
-      gameOverOverlay.classList.add('visible');
+      gameOverOverlay.classList.add("visible");
     }
 
     saveGame();
@@ -302,8 +324,10 @@ function doMove(direction) {
 
 /* Find farthest empty cell in the NEW grid (being built) */
 function findFarthestInNew(r, c, dr, dc) {
-  let prevR = r, prevC = c;
-  let nr = r + dr, nc = c + dc;
+  let prevR = r,
+    prevC = c;
+  let nr = r + dr,
+    nc = c + dc;
   while (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && !grid[nr][nc]) {
     prevR = nr;
     prevC = nc;
@@ -319,8 +343,10 @@ function findFarthestInNew(r, c, dr, dc) {
 /* ── Input handling ──────────────────── */
 function onKeyDown(e) {
   const map = {
-    ArrowUp: 'up', ArrowDown: 'down',
-    ArrowLeft: 'left', ArrowRight: 'right',
+    ArrowUp: "up",
+    ArrowDown: "down",
+    ArrowLeft: "left",
+    ArrowRight: "right",
   };
   if (map[e.key]) {
     e.preventDefault();
@@ -348,9 +374,9 @@ function onTouchEnd(e) {
   const absDy = Math.abs(dy);
   if (Math.max(absDx, absDy) < 30) return;
   if (absDx > absDy) {
-    doMove(dx > 0 ? 'right' : 'left');
+    doMove(dx > 0 ? "right" : "left");
   } else {
-    doMove(dy > 0 ? 'down' : 'up');
+    doMove(dy > 0 ? "down" : "up");
   }
   touchStartX = touchStartY = null;
 }
@@ -368,25 +394,25 @@ function init() {
     spawnRandom();
   }
 
-  gameOverOverlay.classList.remove('visible');
-  if (won && !keepPlaying) winOverlay.classList.add('visible');
-  else winOverlay.classList.remove('visible');
+  gameOverOverlay.classList.remove("visible");
+  if (won && !keepPlaying) winOverlay.classList.add("visible");
+  else winOverlay.classList.remove("visible");
   scoreEl.textContent = score;
   bestEl.textContent = bestScore;
   renderStaticTiles();
 
-  document.addEventListener('keydown', onKeyDown);
-  board.addEventListener('touchstart', onTouchStart, { passive: true });
-  board.addEventListener('touchmove', onTouchMove, { passive: false });
-  board.addEventListener('touchend', onTouchEnd, { passive: true });
+  document.addEventListener("keydown", onKeyDown);
+  board.addEventListener("touchstart", onTouchStart, { passive: true });
+  board.addEventListener("touchmove", onTouchMove, { passive: false });
+  board.addEventListener("touchend", onTouchEnd, { passive: true });
 }
 
 function newGame() {
   busy = false;
   clearAnimTiles();
-  board.querySelectorAll('.staticTile').forEach(el => el.remove());
-  gameOverOverlay.classList.remove('visible');
-  winOverlay.classList.remove('visible');
+  board.querySelectorAll(".staticTile").forEach((el) => el.remove());
+  gameOverOverlay.classList.remove("visible");
+  winOverlay.classList.remove("visible");
   grid = emptyGrid();
   score = 0;
   won = false;
@@ -399,21 +425,21 @@ function newGame() {
 }
 
 /* ── Button handlers ─────────────────── */
-document.getElementById('newGameBtn').onclick = newGame;
-document.getElementById('retryBtn').onclick = newGame;
-document.getElementById('newGameWinBtn').onclick = newGame;
-document.getElementById('keepPlayingBtn').onclick = () => {
+document.getElementById("newGameBtn").onclick = newGame;
+document.getElementById("retryBtn").onclick = newGame;
+document.getElementById("newGameWinBtn").onclick = newGame;
+document.getElementById("keepPlayingBtn").onclick = () => {
   keepPlaying = true;
-  winOverlay.classList.remove('visible');
+  winOverlay.classList.remove("visible");
   saveGame();
 };
 
 /* Recalc on resize */
-window.addEventListener('resize', () => {
+window.addEventListener("resize", () => {
   calcCellSize();
   clearAnimTiles();
   renderStaticTiles();
 });
 
 /* Start */
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener("DOMContentLoaded", init);
