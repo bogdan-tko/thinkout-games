@@ -125,6 +125,7 @@ body {
   padding: 10px;
   aspect-ratio: 1;
   overflow: hidden;
+  touch-action: none;
 }
 .cell {
   background: #3f3f46;

@@ -335,6 +335,10 @@ function onTouchStart(e) {
   touchStartX = t.clientX;
   touchStartY = t.clientY;
 }
+function onTouchMove(e) {
+  if (touchStartX == null) return;
+  e.preventDefault();
+}
 function onTouchEnd(e) {
   if (touchStartX == null) return;
   const t = e.changedTouches[0];
@@ -373,6 +377,7 @@ function init() {
 
   document.addEventListener('keydown', onKeyDown);
   board.addEventListener('touchstart', onTouchStart, { passive: true });
+  board.addEventListener('touchmove', onTouchMove, { passive: false });
   board.addEventListener('touchend', onTouchEnd, { passive: true });
 }
 
