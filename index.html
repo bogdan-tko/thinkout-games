@@ -1,75 +1,93 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>ThinkOut 2048 — Build your business. Brick by brick.</title>
-  <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div id="app">
-    <!-- Header -->
-    <header id="header">
-      <div class="header-left">
-        <div class="logo-row">
-          <img src="public/logo.svg" alt="ThinkOut" class="logo" />
-          <span class="badge">10 YEARS</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>ThinkOut 2048 — Build your business. Brick by brick.</title>
+    <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- Header -->
+      <header id="header">
+        <div class="header-left">
+          <div class="logo-row">
+            <img src="public/logo.svg" alt="ThinkOut" class="logo" />
+          </div>
+          <p class="tagline">Build your business. Brick by brick.</p>
         </div>
-        <p class="tagline">Build your business. Brick by brick.</p>
-      </div>
-      <button id="newGameBtn" class="btn-new-game">New Game</button>
-    </header>
+        <button id="newGameBtn" class="btn-new-game">New Game</button>
+      </header>
 
-    <!-- Score -->
-    <div id="scoreBar">
-      <div class="score-box">
-        <span class="score-label">SCORE</span>
-        <span id="score" class="score-value">0</span>
-      </div>
-      <div class="score-box">
-        <span class="score-label">BEST</span>
-        <span id="best" class="score-value">0</span>
-      </div>
-    </div>
-
-    <!-- Board -->
-    <div id="board">
-      <!-- 16 background cells -->
-      <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-      <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-      <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-      <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-
-      <!-- Overlays -->
-      <div id="gameOverOverlay" class="overlay">
-        <div class="overlay-content">
-          <h2>Game Over</h2>
-          <button id="retryBtn" class="btn-new-game">Try Again</button>
+      <!-- Score -->
+      <div id="scoreBar">
+        <div class="score-box">
+          <span class="score-label">SCORE</span>
+          <span id="score" class="score-value">0</span>
+        </div>
+        <div class="score-box">
+          <span class="score-label">BEST</span>
+          <span id="best" class="score-value">0</span>
         </div>
       </div>
-      <div id="winOverlay" class="overlay">
-        <div class="overlay-content">
-          <h2>You Win!</h2>
-          <div class="overlay-buttons">
-            <button id="keepPlayingBtn" class="btn-new-game">Keep Going</button>
-            <button id="newGameWinBtn" class="btn-new-game">New Game</button>
+
+      <!-- Board -->
+      <div id="board">
+        <!-- 16 background cells -->
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+
+        <!-- Overlays -->
+        <div id="gameOverOverlay" class="overlay">
+          <div class="overlay-content">
+            <h2>Game Over</h2>
+            <button id="retryBtn" class="btn-new-game">Try Again</button>
+          </div>
+        </div>
+        <div id="winOverlay" class="overlay">
+          <div class="overlay-content">
+            <h2>You Win!</h2>
+            <div class="overlay-buttons">
+              <button id="keepPlayingBtn" class="btn-new-game">
+                Keep Going
+              </button>
+              <button id="newGameWinBtn" class="btn-new-game">New Game</button>
+            </div>
           </div>
         </div>
       </div>
+
+      <p class="hint">Swipe or use arrow keys to play</p>
+
+      <!-- Footer -->
+      <footer id="footer">
+        <div class="footer-box">
+          <p>Celebrating 10 years of building businesses</p>
+          <a href="https://thinkout.io" target="_blank" rel="noopener"
+            >thinkout.io</a
+          >
+        </div>
+      </footer>
     </div>
 
-    <p class="hint">Swipe or use arrow keys to play</p>
-
-    <!-- Footer -->
-    <footer id="footer">
-      <div class="footer-box">
-        <p>Celebrating 10 years of building businesses</p>
-        <a href="https://thinkout.io" target="_blank" rel="noopener">thinkout.io</a>
-      </div>
-    </footer>
-  </div>
-
-  <script src="game.js"></script>
-</body>
+    <script src="game.js"></script>
+  </body>
 </html>
