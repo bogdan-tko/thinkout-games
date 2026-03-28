@@ -150,11 +150,11 @@ function getEmptyCells() {
   return cells;
 }
 
-function spawnRandom() {
+function spawnRandom(forceValue) {
   const empty = getEmptyCells();
   if (!empty.length) return null;
   const [r, c] = empty[Math.floor(Math.random() * empty.length)];
-  grid[r][c] = Math.random() < 0.9 ? 2 : 4;
+  grid[r][c] = forceValue || (Math.random() < 0.9 ? 2 : 4);
   return { r, c, val: grid[r][c] };
 }
 
@@ -390,8 +390,8 @@ function init() {
     score = 0;
     won = false;
     keepPlaying = false;
-    spawnRandom();
-    spawnRandom();
+    spawnRandom(2);
+    spawnRandom(2);
   }
 
   gameOverOverlay.classList.remove("visible");
@@ -418,8 +418,8 @@ function newGame() {
   won = false;
   keepPlaying = false;
   scoreEl.textContent = 0;
-  spawnRandom();
-  spawnRandom();
+  spawnRandom(2);
+  spawnRandom(2);
   renderStaticTiles();
   saveGame();
 }
