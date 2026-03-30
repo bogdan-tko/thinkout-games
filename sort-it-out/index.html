@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    <title>ThinkOut · Connections</title>
+    <title>ThinkOut · Sort It Out</title>
     <link rel="apple-touch-icon" sizes="180x180" href="../public/favicon/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="../public/favicon/favicon-light-32x32.png" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/png" sizes="16x16" href="../public/favicon/favicon-light-16x16.png" media="(prefers-color-scheme: light)" />
@@ -21,7 +21,45 @@
           </div>
           <p class="tagline">Build your business. Brick by brick.</p>
         </div>
+        <button id="instructionsBtn" class="btn-instructions">Instructions</button>
       </header>
+
+      <!-- Onboarding / Instructions -->
+      <div id="onboarding" class="onboarding-backdrop hidden">
+        <div class="onboarding-dialog">
+          <div class="onboarding-slides">
+            <div class="onboarding-slide active" data-slide="0">
+              <h2>How to play</h2>
+              <p>Find groups of four words that share something in common.</p>
+              <p>Select four words and tap <strong>Submit</strong> to check if they belong to the same group.</p>
+            </div>
+            <div class="onboarding-slide" data-slide="1">
+              <h2>Watch out</h2>
+              <p>Each puzzle has exactly <strong>four groups</strong> of four words. Some words may seem like they fit in more than one group — stay sharp.</p>
+              <p>You have <strong>four mistakes</strong> before the game ends. If you're one word away from a correct group, you'll get a hint.</p>
+            </div>
+            <div class="onboarding-slide" data-slide="2">
+              <h2>Categories</h2>
+              <p>Groups range from straightforward to tricky. The colors reveal the difficulty after you solve them:</p>
+              <div style="display:flex;gap:8px;margin-top:8px;">
+                <span style="width:32px;height:32px;border-radius:6px;background:#F9DF6D;"></span>
+                <span style="width:32px;height:32px;border-radius:6px;background:#A0C35A;"></span>
+                <span style="width:32px;height:32px;border-radius:6px;background:#B0C4EF;"></span>
+                <span style="width:32px;height:32px;border-radius:6px;background:#BA81C5;"></span>
+              </div>
+              <p style="margin-top:4px;">From easiest to hardest.</p>
+            </div>
+          </div>
+          <div class="onboarding-footer">
+            <div class="onboarding-dots">
+              <span class="dot active" data-dot="0"></span>
+              <span class="dot" data-dot="1"></span>
+              <span class="dot" data-dot="2"></span>
+            </div>
+            <button id="onboardingNext" class="btn-onboarding">Next</button>
+          </div>
+        </div>
+      </div>
 
       <!-- Solved groups appear here -->
       <div id="solved"></div>

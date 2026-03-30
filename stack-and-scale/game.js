@@ -619,6 +619,7 @@ document.querySelectorAll(".dot").forEach((dot) => {
   dot.onclick = () => goToSlide(parseInt(dot.dataset.dot));
 });
 
+
 /* Start */
 document.addEventListener("DOMContentLoaded", () => {
   init();

@@ -46,69 +46,81 @@
       }
       .home {
         width: 100%;
-        max-width: 500px;
-        padding: 32px 16px;
+        max-width: 960px;
+        padding: 32px 24px;
         text-align: center;
       }
       .home-logo {
-        height: 24px;
-        margin-bottom: 8px;
+        height: 36px;
+        margin-bottom: 20px;
       }
-      .home-tagline {
-        font-size: 14px;
+      .home-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #27272a;
+        margin-bottom: 16px;
+        line-height: 1.3;
+      }
+      .home-body {
+        font-size: 15px;
         color: #71717a;
-        margin-bottom: 40px;
+        line-height: 1.7;
+        max-width: 540px;
+        margin: 0 auto 36px;
       }
       .games-grid {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 16px;
       }
       .game-card {
-        display: block;
+        display: flex;
+        flex-direction: column;
         background: #27272a;
-        border-radius: 14px;
-        padding: 24px;
+        border-radius: 20px;
+        padding: 28px 24px;
         text-align: left;
-        transition:
-          transform 200ms ease,
-          box-shadow 200ms ease;
+        transition: background 200ms ease;
         cursor: pointer;
       }
       .game-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        background: #1c1c1e;
       }
       .game-name {
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 700;
         color: #fff;
-        margin-bottom: 2px;
+        margin-bottom: 4px;
       }
       .game-subtitle {
         font-size: 14px;
-        font-weight: 600;
+        font-weight: 400;
         color: #a1a1aa;
-        margin-bottom: 10px;
+        margin-bottom: 16px;
       }
       .game-desc {
         font-size: 13px;
+        font-weight: 400;
         color: #71717a;
-        line-height: 1.5;
-        margin-bottom: 16px;
+        line-height: 1.6;
+        margin-bottom: 24px;
+        flex: 1;
       }
       .game-play {
         display: inline-block;
-        font-size: 13px;
+        font-family: inherit;
+        font-size: 14px;
         font-weight: 600;
-        color: #fff;
-        border: 2px solid #3f3f46;
-        border-radius: 8px;
-        padding: 8px 20px;
-        transition: border-color 200ms ease;
+        color: #27272a;
+        background: #eab308;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 24px;
+        transition: background 200ms ease;
+        align-self: flex-start;
       }
       .game-card:hover .game-play {
-        border-color: #71717a;
+        background: #fde047;
       }
       .home-footer {
         margin-top: 48px;
@@ -123,28 +135,37 @@
       .home-footer a:hover {
         color: #27272a;
       }
+      @media (max-width: 680px) {
+        .games-grid {
+          grid-template-columns: 1fr;
+        }
+        .home-title {
+          font-size: 24px;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="home">
       <img src="public/logo.svg" alt="ThinkOut" class="home-logo" />
-      <p class="home-tagline"></p>
+      <p class="home-body">
+        Building a business is never easy. It takes sharp decisions, smart guesses,
+        and the patience to grow, in any direction. For 10 years, ThinkOut has been
+        built exactly like that. Brick by brick.
+        <br />
+        To celebrate, we built three games that put to the test some skills every
+        entrepreneur should sharpen — from decision making, to trial and error,
+        to building something that lasts.
+        <br />
+        Analyze your options. Trust your instincts. Grow what you've started.
+        <br />
+        <strong style="color:#27272a;">Now... think you can build?</strong>
+      </p>
 
       <div class="games-grid">
-        <a href="/brick-by-brick/" class="game-card">
-          <div class="game-name">Stack & Scale</div>
-          <div class="game-subtitle">Start small. Merge smart. Build big.</div>
-          <div class="game-desc">
-            Start with small wins. Combine them into bigger ones. Keep scaling
-            until there's no room left... or until you've built something no one
-            saw coming.
-          </div>
-          <span class="game-play">Play</span>
-        </a>
-
-        <a href="/connections/" class="game-card">
-          <div class="game-name">Decision Making</div>
-          <div class="game-subtitle">Analyze. Connect. Decide.</div>
+        <a href="/sort-it-out/" class="game-card">
+          <div class="game-name">Sort It Out</div>
+          <div class="game-subtitle">Business is messy. Your job is to find order in the chaos.</div>
           <div class="game-desc">
             You make a hundred decisions a day — this time, sixteen words and
             four hidden groups. Sort through the noise and find what connects.
@@ -152,7 +173,7 @@
           <span class="game-play">Play</span>
         </a>
 
-        <a href="/wordle/" class="game-card">
+        <a href="/trial-and-error/" class="game-card">
           <div class="game-name">Trial & Error</div>
           <div class="game-subtitle">Not enough data? Make your best guess.</div>
           <div class="game-desc">
@@ -162,9 +183,21 @@
           </div>
           <span class="game-play">Play</span>
         </a>
+
+        <a href="/stack-and-scale/" class="game-card">
+          <div class="game-name">Stack & Scale</div>
+          <div class="game-subtitle">Start small. Merge smart. Build big.</div>
+          <div class="game-desc">
+            Start with small wins. Combine them into bigger ones. Keep scaling
+            until there's no room left... or until you've built something no one
+            saw coming.
+          </div>
+          <span class="game-play">Play</span>
+        </a>
       </div>
 
       <div class="home-footer">
+        Celebrating 10 years of building businesses<br />
         <a href="https://thinkout.io" target="_blank">thinkout.io</a>
       </div>
     </div>

@@ -5,7 +5,7 @@ html {
   height: 100%;
 }
 body {
-  align-items: center;
+  align-items: flex-start;
   overflow: hidden;
 }
 
@@ -221,44 +221,7 @@ body {
 }
 .overlay-link:hover { color: #fff; }
 
-/* ── Onboarding Dialog ──────────────── */
-.onboarding-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(6px);
-  opacity: 1;
-  transition: opacity 300ms ease;
-}
-.onboarding-backdrop.hidden { opacity: 0; pointer-events: none; }
-.onboarding-dialog {
-  background: #27272a;
-  border-radius: 16px;
-  padding: 32px 28px 24px;
-  max-width: 400px;
-  width: calc(100% - 32px);
-  color: #fff;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-}
-.onboarding-slides { position: relative; min-height: 220px; }
-.onboarding-slide {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 12px;
-  animation: slideFadeIn 300ms ease;
-}
-.onboarding-slide.active { display: flex; }
-@keyframes slideFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.onboarding-hero-img { height: 64px; object-fit: contain; margin-bottom: 4px; }
+/* ── Onboarding (game-specific) ─────── */
 .onboarding-tax-preview { display: flex; justify-content: center; margin-bottom: 12px; }
 .onboarding-tax-tile {
   width: 80px; height: 80px;
@@ -272,8 +235,6 @@ body {
   justify-content: center;
   gap: 2px;
 }
-.onboarding-slide h2 { font-size: 20px; font-weight: 700; line-height: 1.3; margin: 0; }
-.onboarding-slide p { font-size: 14px; color: #a1a1aa; line-height: 1.6; margin: 0; }
 .onboarding-stages { display: flex; flex-direction: column; gap: 14px; width: 100%; }
 .onboarding-stage {
   display: flex; align-items: center; gap: 12px; text-align: left;
@@ -282,7 +243,3 @@ body {
 .onboarding-stage-img { height: 32px; width: 40px; object-fit: contain; flex-shrink: 0; }
 .onboarding-stage strong { font-size: 15px; font-weight: 700; min-width: 70px; }
 .onboarding-stage small { font-size: 13px; color: #a1a1aa; flex: 1; }
-.onboarding-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; }
-.onboarding-dots { display: flex; gap: 8px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: #52525b; transition: background 200ms ease; }
-.dot.active { background: #fbc73c; }

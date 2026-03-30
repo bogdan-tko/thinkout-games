@@ -122,3 +122,81 @@ a {
   font-size: 14px;
   margin-top: 12px;
 }
+
+/* ── Onboarding / Instructions Dialog ── */
+.onboarding-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  opacity: 1;
+  transition: opacity 300ms ease;
+}
+.onboarding-backdrop.hidden { opacity: 0; pointer-events: none; }
+.onboarding-dialog {
+  background: #27272a;
+  border-radius: 16px;
+  padding: 32px 28px 24px;
+  max-width: 400px;
+  width: calc(100% - 32px);
+  color: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+.onboarding-slides { position: relative; }
+.onboarding-slide {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  animation: slideFadeIn 300ms ease;
+}
+.onboarding-slide.active { display: flex; }
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.onboarding-hero-img { height: 64px; object-fit: contain; margin-bottom: 4px; }
+.onboarding-slide h2 { font-size: 20px; font-weight: 700; line-height: 1.3; margin: 0; }
+.onboarding-slide p { font-size: 14px; color: #a1a1aa; line-height: 1.6; margin: 0; }
+.onboarding-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; }
+.onboarding-dots { display: flex; gap: 8px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #52525b; transition: background 200ms ease; cursor: pointer; }
+.dot.active { background: #fbc73c; }
+.btn-instructions {
+  font-family: inherit;
+  background: transparent;
+  color: #71717a;
+  border: 2px solid #d4d4d8;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 200ms ease, border-color 200ms ease;
+}
+.btn-instructions:hover {
+  color: #27272a;
+  border-color: #27272a;
+}
+.btn-onboarding {
+  font-family: inherit;
+  background: #3f3f46;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 200ms ease;
+}
+.btn-onboarding:hover {
+  background: #52525b;
+}

@@ -422,5 +422,55 @@ keyboardEl.addEventListener("click", (e) => {
 shareBtn.addEventListener("click", shareResults);
 playAgainBtn.addEventListener("click", resetGame);
 
+/* ── Onboarding ─────────────────────── */
+const ONBOARDING_KEY = "thinkout_wordle_onboarded";
+const TOTAL_SLIDES = 3;
+let currentSlide = 0;
+
+function showOnboarding() {
+  const onboarding = document.getElementById("onboarding");
+  if (localStorage.getItem(ONBOARDING_KEY)) {
+    onboarding.classList.add("hidden");
+    onboarding.style.display = "none";
+    return;
+  }
+  onboarding.classList.remove("hidden");
+  onboarding.style.display = "";
+}
+
+function goToSlide(n) {
+  currentSlide = n;
+  document.querySelectorAll(".onboarding-slide").forEach((s) => s.classList.remove("active"));
+  document.querySelectorAll(".dot").forEach((d) => d.classList.remove("active"));
+  document.querySelector(`.onboarding-slide[data-slide="${n}"]`).classList.add("active");
+  document.querySelector(`.dot[data-dot="${n}"]`).classList.add("active");
+  const btn = document.getElementById("onboardingNext");
+  btn.textContent = n === TOTAL_SLIDES - 1 ? "Got it!" : "Next";
+}
+
+document.getElementById("onboardingNext").onclick = () => {
+  if (currentSlide < TOTAL_SLIDES - 1) {
+    goToSlide(currentSlide + 1);
+  } else {
+    const onboarding = document.getElementById("onboarding");
+    onboarding.classList.add("hidden");
+    localStorage.setItem(ONBOARDING_KEY, "1");
+    setTimeout(() => { onboarding.style.display = "none"; }, 300);
+  }
+};
+
+document.querySelectorAll(".dot").forEach((dot) => {
+  dot.onclick = () => goToSlide(parseInt(dot.dataset.dot));
+});
+
+document.getElementById("instructionsBtn").onclick = () => {
+  const onboarding = document.getElementById("onboarding");
+  currentSlide = 0;
+  goToSlide(0);
+  onboarding.style.display = "";
+  onboarding.classList.remove("hidden");
+};
+
 /* ── Init ────────────────────────────── */
 resetGame();
+showOnboarding();
