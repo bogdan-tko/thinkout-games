@@ -249,38 +249,9 @@ function spawnTax() {
   }, NEW_MS);
 }
 
-function getGameOverText(maxVal) {
-  if (maxVal <= 2) return {
-    title: "Back to the drawing board",
-    msg: "Every empire starts with a single brick. Try again!"
-  };
-  if (maxVal <= 4) return {
-    title: "The foundation crumbled",
-    msg: "You built some walls, but the structure didn't hold. Keep stacking!"
-  };
-  if (maxVal <= 8) return {
-    title: "The garage is closed",
-    msg: "Great ideas start in garages. Yours just needs another shot."
-  };
-  if (maxVal <= 16) return {
-    title: "Office shutdown",
-    msg: "The lease expired, but the ambition didn't. Come back stronger!"
-  };
-  if (maxVal <= 32) return {
-    title: "The fort has fallen",
-    msg: "You built something real. Dust off and fortify again."
-  };
-  if (maxVal <= 64) return {
-    title: "The tower collapsed",
-    msg: "You reached great heights. The view from the top awaits you."
-  };
-  if (maxVal <= 128) return {
-    title: "The citadel stands... barely",
-    msg: "So close to greatness. One more push and you'll build your Polis."
-  };
+function getGameOverText() {
   return {
-    title: "Almost legendary",
-    msg: "You've seen what's possible. Now go build that empire."
+    msg: "Every builder hits a wall. But the best ones start again, smarter, stronger, and ready to lay the next brick. Try again?"
   };
 }
 
@@ -472,9 +443,7 @@ function doMove(direction) {
       winOverlay.classList.add("visible");
     }
     if (!canMove()) {
-      const maxVal = Math.max(...grid.flat().filter((v) => v > 0));
-      const { title, msg } = getGameOverText(maxVal);
-      gameOverTitle.textContent = title;
+      const { msg } = getGameOverText();
       gameOverMsg.textContent = msg;
       gameOverOverlay.classList.add("visible");
     }
