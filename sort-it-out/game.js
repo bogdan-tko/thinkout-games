@@ -146,7 +146,10 @@ function submit() {
     // Check if all solved
     if (solved.length === GROUPS.length) {
       gameOver = true;
+      saveState();
       setTimeout(() => showResult(true), 500);
+    } else {
+      saveState();
     }
   } else {
     // Check if 3 out of 4 are from the same group (one away)
@@ -184,7 +187,10 @@ function submit() {
       selected = [];
       renderSolved();
       renderGrid();
+      saveState();
       setTimeout(() => showResult(false), 800);
+    } else {
+      saveState();
     }
   }
 }
@@ -226,6 +232,56 @@ function showResult(won) {
   resultOverlay.classList.remove("hidden");
 }
 
+/* ── Persistence ─────────────────────── */
+const STATE_KEY = "thinkout_connections_state";
+
+function saveState() {
+  const state = {
+    solvedNames: solved.map(g => g.name),
+    mistakes,
+    gameOver,
+    words,
+  };
+  localStorage.setItem(STATE_KEY, JSON.stringify(state));
+}
+
+function clearState() {
+  localStorage.removeItem(STATE_KEY);
+}
+
+function restoreState() {
+  const raw = localStorage.getItem(STATE_KEY);
+  if (!raw) return false;
+
+  try {
+    const state = JSON.parse(raw);
+    if (!state.solvedNames || !state.solvedNames.length && !state.mistakes) return false;
+
+    solved = state.solvedNames
+      .map(name => GROUPS.find(g => g.name === name))
+      .filter(Boolean);
+    mistakes = state.mistakes || 0;
+    gameOver = state.gameOver || false;
+    words = state.words || [];
+    selected = [];
+
+    resultOverlay.classList.add("hidden");
+    renderSolved();
+    renderGrid();
+    renderMistakes();
+    updateSubmitBtn();
+
+    if (gameOver) {
+      const won = solved.length === GROUPS.length && mistakes < MAX_MISTAKES;
+      setTimeout(() => showResult(won), 300);
+    }
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 /* ── Init ────────────────────────────── */
 function init() {
   const allWords = GROUPS.flatMap((g) => g.words);
@@ -240,6 +296,7 @@ function init() {
   renderMistakes();
   renderSolved();
   updateSubmitBtn();
+  clearState();
 }
 
 /* ── Event listeners ─────────────────── */
@@ -298,6 +355,8 @@ document.getElementById("instructionsBtn").onclick = () => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  init();
+  if (!restoreState()) {
+    init();
+  }
   showOnboarding();
 });

@@ -188,17 +188,20 @@ function submitGuess() {
 
     if (won) {
       gameOver = true;
+      saveState();
       bounceRow(currentRow, () => {
         setTimeout(() => showResult(true), 300);
       });
     } else if (currentRow >= MAX_ROWS - 1) {
       gameOver = true;
+      saveState();
       setTimeout(() => showResult(false), 600);
     } else {
       currentRow++;
       currentCol = 0;
       currentGuess = [];
       isAnimating = false;
+      saveState();
     }
   });
 }
@@ -362,6 +365,67 @@ function copyToClipboard(text) {
     .catch(() => showToast("Could not copy"));
 }
 
+/* ── Persistence ─────────────────────── */
+const STATE_KEY = "thinkout_wordle_state";
+
+function saveState() {
+  const state = {
+    guesses: guesses.map(g => ({ word: g.word, result: g.result })),
+    gameOver,
+    keyStates,
+  };
+  localStorage.setItem(STATE_KEY, JSON.stringify(state));
+}
+
+function clearState() {
+  localStorage.removeItem(STATE_KEY);
+}
+
+function restoreState() {
+  const raw = localStorage.getItem(STATE_KEY);
+  if (!raw) return false;
+
+  try {
+    const state = JSON.parse(raw);
+    if (!state.guesses || !state.guesses.length) return false;
+
+    // Replay each guess instantly (no animation)
+    state.guesses.forEach((g, rowIdx) => {
+      for (let col = 0; col < WORD_LENGTH; col++) {
+        const tile = getTile(rowIdx, col);
+        tile.textContent = g.word[col];
+        tile.classList.add("filled", "revealed", g.result[col]);
+      }
+    });
+
+    guesses = state.guesses;
+    keyStates = state.keyStates || {};
+    gameOver = state.gameOver || false;
+    currentRow = guesses.length;
+    currentCol = 0;
+    currentGuess = [];
+
+    // Restore keyboard colors
+    Object.entries(keyStates).forEach(([letter, state]) => {
+      const keyEl = getKey(letter);
+      if (keyEl) {
+        keyEl.classList.remove("correct", "present", "absent");
+        keyEl.classList.add(state);
+      }
+    });
+
+    // If game was over, show the result overlay
+    if (gameOver) {
+      const won = guesses[guesses.length - 1].result.every(r => r === "correct");
+      setTimeout(() => showResult(won), 300);
+    }
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 /* ── Reset game ──────────────────────── */
 function resetGame() {
   currentRow = 0;
@@ -386,6 +450,7 @@ function resetGame() {
   });
 
   resultOverlay.classList.add("hidden");
+  clearState();
 }
 
 /* ── Event: physical keyboard ────────── */
@@ -472,5 +537,7 @@ document.getElementById("instructionsBtn").onclick = () => {
 };
 
 /* ── Init ────────────────────────────── */
-resetGame();
+if (!restoreState()) {
+  resetGame();
+}
 showOnboarding();
