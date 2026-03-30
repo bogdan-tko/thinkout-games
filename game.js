@@ -400,16 +400,16 @@ function doMove(direction) {
     return { el, toR: m.toR, toC: m.toC };
   });
 
-  // Trigger slide by setting new positions (next frame for transition)
+  // Trigger slide by setting new positions (double rAF ensures old position is painted first)
   requestAnimationFrame(() => {
-    moveEls.forEach(({ el, toR, toC }) => {
-      el.style.left = cellLeft(toC) + "px";
-      el.style.top = cellTop(toR) + "px";
-    });
-  });
+    requestAnimationFrame(() => {
+      moveEls.forEach(({ el, toR, toC }) => {
+        el.style.left = cellLeft(toC) + "px";
+        el.style.top = cellTop(toR) + "px";
+      });
 
-  // Phase 2: After slide completes — show merges, spawn new tile
-  setTimeout(() => {
+      // Phase 2: After slide completes — show merges, spawn new tile
+      setTimeout(() => {
     // Remove moveTiles
     moveEls.forEach(({ el }) => el.remove());
 
@@ -481,7 +481,9 @@ function doMove(direction) {
 
     saveGame();
     busy = false;
-  }, SLIDE_MS);
+      }, SLIDE_MS);
+    });
+  });
 }
 
 /* Find farthest empty cell in the NEW grid (being built) */
