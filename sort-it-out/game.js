@@ -32,6 +32,7 @@ const MAX_MISTAKES = 4;
 let words = [];
 let selected = [];
 let solved = [];
+let solvedByPlayer = 0;
 let mistakes = 0;
 let gameOver = false;
 
@@ -141,6 +142,7 @@ function submit() {
     // Remove words from grid
     words = words.filter((w) => !selected.includes(w));
     solved.push(group);
+    solvedByPlayer++;
     selected = [];
     renderSolved();
     renderGrid();
@@ -241,6 +243,7 @@ const STATE_KEY = "thinkout_connections_state";
 function saveState() {
   const state = {
     solvedNames: solved.map(g => g.name),
+    solvedByPlayer,
     mistakes,
     gameOver,
     words,
@@ -263,6 +266,7 @@ function restoreState() {
     solved = state.solvedNames
       .map(name => GROUPS.find(g => g.name === name))
       .filter(Boolean);
+    solvedByPlayer = state.solvedByPlayer || solved.length;
     mistakes = state.mistakes || 0;
     gameOver = state.gameOver || false;
     words = state.words || [];
@@ -292,6 +296,7 @@ function init() {
   words = shuffle(allWords);
   selected = [];
   solved = [];
+  solvedByPlayer = 0;
   mistakes = 0;
   gameOver = false;
 
@@ -316,7 +321,7 @@ function shareResults() {
     .map((g) => colorMap[g.color] || "⬜")
     .join("");
 
-  const text = `ThinkOut · Sort It Out\n${solved.length}/${GROUPS.length} groups | ${mistakes} mistakes\n\n${rows}\n\nplay.thinkout.io/sort-it-out`;
+  const text = `ThinkOut · Sort It Out\n${solvedByPlayer}/${GROUPS.length} groups | ${mistakes} mistakes\n\n${rows}\n\nplay.thinkout.io/sort-it-out`;
 
   if (navigator.share) {
     navigator.share({ text }).catch(() => copyToClipboard(text));
