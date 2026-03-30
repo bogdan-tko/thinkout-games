@@ -487,5 +487,51 @@ window.addEventListener("resize", () => {
   renderStaticTiles();
 });
 
+/* ── Onboarding ─────────────────────── */
+const ONBOARDING_KEY = "thinkout_onboarded";
+const TOTAL_SLIDES = 4;
+let currentSlide = 0;
+
+function showOnboarding() {
+  const onboarding = document.getElementById("onboarding");
+  if (localStorage.getItem(ONBOARDING_KEY)) {
+    onboarding.classList.add("hidden");
+    onboarding.style.display = "none";
+    return;
+  }
+  onboarding.classList.remove("hidden");
+}
+
+function goToSlide(n) {
+  currentSlide = n;
+  document.querySelectorAll(".onboarding-slide").forEach((s) => s.classList.remove("active"));
+  document.querySelectorAll(".dot").forEach((d) => d.classList.remove("active"));
+  document.querySelector(`.onboarding-slide[data-slide="${n}"]`).classList.add("active");
+  document.querySelector(`.dot[data-dot="${n}"]`).classList.add("active");
+
+  const btn = document.getElementById("onboardingNext");
+  btn.textContent = n === TOTAL_SLIDES - 1 ? "Let's build!" : "Next";
+}
+
+document.getElementById("onboardingNext").onclick = () => {
+  if (currentSlide < TOTAL_SLIDES - 1) {
+    goToSlide(currentSlide + 1);
+  } else {
+    // Close onboarding
+    const onboarding = document.getElementById("onboarding");
+    onboarding.classList.add("hidden");
+    localStorage.setItem(ONBOARDING_KEY, "1");
+    setTimeout(() => { onboarding.style.display = "none"; }, 300);
+  }
+};
+
+// Allow clicking dots to navigate
+document.querySelectorAll(".dot").forEach((dot) => {
+  dot.onclick = () => goToSlide(parseInt(dot.dataset.dot));
+});
+
 /* Start */
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("DOMContentLoaded", () => {
+  init();
+  showOnboarding();
+});

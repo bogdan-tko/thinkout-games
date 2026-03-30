@@ -70,6 +70,77 @@
 
       <p class="hint">Swipe or use arrow keys to play</p>
 
+      <!-- Onboarding dialog -->
+      <div id="onboarding" class="onboarding-backdrop">
+        <div class="onboarding-dialog">
+          <div class="onboarding-slides">
+            <!-- Slide 0: Intro -->
+            <div class="onboarding-slide active" data-slide="0">
+              <div class="onboarding-emoji">🧱</div>
+              <h2>Every business starts with a single brick.</h2>
+              <p>For 10 years, ThinkOut has helped entrepreneurs build their businesses — brick by brick. This game celebrates that journey.</p>
+            </div>
+            <!-- Slide 1: Early stages -->
+            <div class="onboarding-slide" data-slide="1">
+              <div class="onboarding-stages">
+                <div class="onboarding-stage">
+                  <span>🧱</span><strong>Brick</strong>
+                  <small>An idea is born</small>
+                </div>
+                <div class="onboarding-stage">
+                  <span>🪨</span><strong>Wall</strong>
+                  <small>You lay the foundation</small>
+                </div>
+                <div class="onboarding-stage">
+                  <span>🔧</span><strong>Garage</strong>
+                  <small>Where startups begin</small>
+                </div>
+                <div class="onboarding-stage">
+                  <span>🏢</span><strong>Office</strong>
+                  <small>The business takes shape</small>
+                </div>
+              </div>
+            </div>
+            <!-- Slide 2: ThinkOut tiers -->
+            <div class="onboarding-slide" data-slide="2">
+              <div class="onboarding-stages">
+                <div class="onboarding-stage">
+                  <span>🏰</span><strong>Fort</strong>
+                  <small>Solo founders protecting a core idea</small>
+                </div>
+                <div class="onboarding-stage">
+                  <span>🗼</span><strong>Tower</strong>
+                  <small>Small teams with clear vision</small>
+                </div>
+                <div class="onboarding-stage">
+                  <span>🏯</span><strong>Citadel</strong>
+                  <small>Established firms pursuing growth</small>
+                </div>
+                <div class="onboarding-stage">
+                  <span>🌆</span><strong>Polis</strong>
+                  <small>A thriving business empire</small>
+                </div>
+              </div>
+            </div>
+            <!-- Slide 3: How to play -->
+            <div class="onboarding-slide" data-slide="3">
+              <div class="onboarding-emoji">🎮</div>
+              <h2>How to play</h2>
+              <p>Swipe or use arrow keys to slide tiles. When two matching tiles meet, they merge and evolve into the next stage. Build your way to <strong>Polis</strong>!</p>
+            </div>
+          </div>
+          <div class="onboarding-footer">
+            <div class="onboarding-dots">
+              <span class="dot active" data-dot="0"></span>
+              <span class="dot" data-dot="1"></span>
+              <span class="dot" data-dot="2"></span>
+              <span class="dot" data-dot="3"></span>
+            </div>
+            <button id="onboardingNext" class="btn-new-game">Next</button>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <script src="game.js"></script>
