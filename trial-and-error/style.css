@@ -2,10 +2,15 @@ body {
   align-items: flex-start;
 }
 
+#header {
+  flex-shrink: 0;
+}
+
 #app {
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 /* ── Board ───────────────────────────── */
@@ -13,25 +18,26 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: clamp(4px, 0.8dvh, 6px);
   flex: 1;
+  min-height: 0;
   justify-content: center;
-  padding: 0 0 12px;
+  padding: 0 0 8px;
 }
 .row {
   display: flex;
-  gap: 6px;
+  gap: clamp(4px, 0.8dvh, 6px);
 }
 .tile {
-  width: 62px;
-  height: 62px;
+  width: clamp(44px, 8dvh, 62px);
+  height: clamp(44px, 8dvh, 62px);
   background: #fff;
   border: 2px solid #3f3f46;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: clamp(20px, 3.8dvh, 28px);
   font-weight: 700;
   text-transform: uppercase;
   color: #27272a;
@@ -108,6 +114,7 @@ body {
   align-items: center;
   gap: 6px;
   padding: 0 4px 16px;
+  flex-shrink: 0;
   user-select: none;
 }
 .kb-row {
@@ -128,7 +135,7 @@ body {
   border-radius: 8px;
   background: #fff;
   color: #27272a;
-  height: 52px;
+  height: clamp(40px, 7dvh, 52px);
   flex: 1;
   max-width: 44px;
   display: flex;
@@ -225,29 +232,23 @@ body {
 .result-tile.absent { background: #27272a; }
 
 /* ── Responsive ──────────────────────── */
-@media (max-height: 680px) {
+@media (max-height: 700px) {
+  #header {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
   .tile {
-    width: 54px;
-    height: 54px;
-    font-size: 24px;
+    font-size: 22px;
   }
-  .key {
-    height: 46px;
-  }
-  #board {
-    gap: 5px;
+  #keyboard {
+    gap: 4px;
+    padding: 0 4px 8px;
   }
 }
 
 @media (max-width: 380px) {
-  .tile {
-    width: 52px;
-    height: 52px;
-    font-size: 22px;
-  }
   .key {
     font-size: 12px;
-    height: 48px;
   }
   .key-wide {
     font-size: 11px;
