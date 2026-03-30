@@ -1,0 +1,304 @@
+body {
+  align-items: flex-start;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+/* ── Board ───────────────────────────── */
+#board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  justify-content: center;
+  padding: 0 0 12px;
+}
+.row {
+  display: flex;
+  gap: 6px;
+}
+.tile {
+  width: 62px;
+  height: 62px;
+  background: #fff;
+  border: 2px solid #d4d4d8;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #27272a;
+  user-select: none;
+}
+.tile.filled {
+  border-color: #27272a;
+  animation: tilePop 100ms ease;
+}
+.tile.revealed {
+  border-color: transparent;
+  color: #fff;
+}
+
+/* ── Tile states ─────────────────────── */
+.tile.correct {
+  background: #16a34a;
+  border-color: transparent;
+  color: #fff;
+}
+.tile.present {
+  background: #eab308;
+  border-color: transparent;
+  color: #fff;
+}
+.tile.absent {
+  background: #27272a;
+  border-color: transparent;
+  color: #fff;
+}
+
+/* ── Tile animations ─────────────────── */
+@keyframes tilePop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@keyframes tileFlipIn {
+  0% { transform: rotateX(0deg); }
+  100% { transform: rotateX(-90deg); }
+}
+
+@keyframes tileFlipOut {
+  0% { transform: rotateX(-90deg); }
+  100% { transform: rotateX(0deg); }
+}
+
+@keyframes tileShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 50%, 90% { transform: translateX(-4px); }
+  30%, 70% { transform: translateX(4px); }
+}
+
+@keyframes tileBounce {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-20px); }
+  60% { transform: translateY(-10px); }
+  80% { transform: translateY(-4px); }
+}
+
+.tile.shake {
+  animation: tileShake 500ms ease;
+}
+
+.tile.bounce {
+  animation: tileBounce 600ms ease;
+}
+
+/* ── Keyboard ────────────────────────── */
+#keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px 16px;
+  user-select: none;
+}
+.kb-row {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+  justify-content: center;
+}
+.kb-spacer-half {
+  flex: 0.5;
+}
+.key {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2px solid #d4d4d8;
+  border-radius: 8px;
+  background: #fff;
+  color: #27272a;
+  height: 52px;
+  flex: 1;
+  max-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease, border-color 200ms ease, transform 60ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.key:active {
+  transform: scale(0.95);
+}
+.key-wide {
+  flex: 1.5;
+  max-width: 66px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+/* ── Keyboard color states ───────────── */
+.key.correct {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #fff;
+}
+.key.present {
+  background: #eab308;
+  border-color: #eab308;
+  color: #fff;
+}
+.key.absent {
+  background: #27272a;
+  border-color: #27272a;
+  color: #fff;
+}
+
+/* ── Toasts ──────────────────────────── */
+#toasts {
+  position: fixed;
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 200;
+  pointer-events: none;
+}
+.toast {
+  background: #27272a;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  animation: toastIn 200ms ease;
+  pointer-events: none;
+}
+.toast.fade-out {
+  animation: toastOut 300ms ease forwards;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes toastOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+/* ── Result overlay ──────────────────── */
+.result-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(244, 244, 245, 0.92);
+  backdrop-filter: blur(6px);
+  opacity: 1;
+  transition: opacity 400ms ease;
+}
+.result-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.result-content {
+  text-align: center;
+  max-width: 380px;
+  width: calc(100% - 32px);
+  animation: resultIn 400ms ease;
+}
+@keyframes resultIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.result-content h2 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+.result-msg {
+  font-size: 15px;
+  color: #71717a;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.result-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+.result-row {
+  display: flex;
+  gap: 4px;
+}
+.result-tile {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+}
+.result-tile.correct { background: #16a34a; }
+.result-tile.present { background: #eab308; }
+.result-tile.absent { background: #27272a; }
+.result-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.result-link {
+  display: inline-block;
+  margin-top: 16px;
+  color: #a1a1aa;
+  font-size: 14px;
+  text-decoration: underline;
+  transition: color 200ms ease;
+}
+.result-link:hover {
+  color: #27272a;
+}
+
+/* ── Responsive ──────────────────────── */
+@media (max-height: 680px) {
+  .tile {
+    width: 54px;
+    height: 54px;
+    font-size: 24px;
+  }
+  .key {
+    height: 46px;
+  }
+  #board {
+    gap: 5px;
+  }
+}
+
+@media (max-width: 380px) {
+  .tile {
+    width: 52px;
+    height: 52px;
+    font-size: 22px;
+  }
+  .key {
+    font-size: 12px;
+    height: 48px;
+  }
+  .key-wide {
+    font-size: 11px;
+  }
+}
