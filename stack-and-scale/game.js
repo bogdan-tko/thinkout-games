@@ -25,6 +25,14 @@ const DIR = { up: [-1, 0], right: [0, 1], down: [1, 0], left: [0, -1] };
 /* ── Progression order (for progress bar) */
 const PROGRESSION = [2, 4, 8, 16, 32, 64, 128, 256];
 
+/* ── Preload tile images ─────────────── */
+Object.values(TILES).forEach((cfg) => {
+  if (cfg.img) {
+    const img = new Image();
+    img.src = cfg.img;
+  }
+});
+
 /* ── DOM refs ────────────────────────── */
 const board = document.getElementById("board");
 const progressTrack = document.getElementById("progressTrack");
@@ -180,22 +188,60 @@ function loadGame() {
 }
 
 /* ── Rendering (static layer) ────────── */
+// Track existing static tile elements: staticTileEls[r][c] = DOM element or null
+let staticTileEls = Array.from({ length: SIZE }, () => Array(SIZE).fill(null));
+let staticTaxEls = []; // [{ r, c, remaining, el }]
+
 function renderStaticTiles() {
-  // Remove any existing static tiles
-  board.querySelectorAll(".staticTile, .taxTile").forEach((el) => el.remove());
+  // Update regular tiles — only touch what changed
   for (let r = 0; r < SIZE; r++) {
     for (let c = 0; c < SIZE; c++) {
-      if (grid[r][c] > 0) {
-        const el = createTileEl(grid[r][c], r, c, "staticTile");
+      const val = grid[r][c] > 0 ? grid[r][c] : 0;
+      const existing = staticTileEls[r][c];
+
+      if (existing && parseInt(existing.dataset.value) === val && val > 0) {
+        // Same tile, just update position (in case of resize)
+        existing.style.left = cellLeft(c) + "px";
+        existing.style.top = cellTop(r) + "px";
+        continue;
+      }
+
+      // Remove old tile if present
+      if (existing) {
+        existing.remove();
+        staticTileEls[r][c] = null;
+      }
+
+      // Create new tile if needed
+      if (val > 0) {
+        const el = createTileEl(val, r, c, "staticTile");
         el.style.zIndex = 1;
+        staticTileEls[r][c] = el;
       }
     }
   }
-  // Render tax tiles
+
+  // Update tax tiles
+  staticTaxEls.forEach((t) => t.el.remove());
+  staticTaxEls = [];
   taxCells.forEach((tax) => {
     const el = createTaxTileEl(tax.r, tax.c, tax.remaining);
     el.style.zIndex = 1;
+    staticTaxEls.push({ r: tax.r, c: tax.c, remaining: tax.remaining, el });
   });
+}
+
+function clearStaticTiles() {
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      if (staticTileEls[r][c]) {
+        staticTileEls[r][c].remove();
+        staticTileEls[r][c] = null;
+      }
+    }
+  }
+  staticTaxEls.forEach((t) => t.el.remove());
+  staticTaxEls = [];
 }
 
 function createTaxTileEl(row, col, remaining) {
@@ -361,9 +407,9 @@ function doMove(direction) {
 
   busy = true;
 
-  // Clear previous animation tiles, hide static tiles
+  // Clear previous animation tiles, hide static tiles during animation
   clearAnimTiles();
-  board.querySelectorAll(".staticTile").forEach((el) => el.remove());
+  clearStaticTiles();
 
   // Phase 1: Create moveTile elements at OLD positions
   const moveEls = moves.map((m) => {
@@ -543,7 +589,7 @@ function init() {
 function newGame() {
   busy = false;
   clearAnimTiles();
-  board.querySelectorAll(".staticTile, .taxTile").forEach((el) => el.remove());
+  clearStaticTiles();
   gameOverOverlay.classList.remove("visible");
   winOverlay.classList.remove("visible");
   grid = emptyGrid();
