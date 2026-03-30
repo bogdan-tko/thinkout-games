@@ -29,6 +29,8 @@ const PROGRESSION = [2, 4, 8, 16, 32, 64, 128, 256];
 const board = document.getElementById("board");
 const progressTrack = document.getElementById("progressTrack");
 const gameOverOverlay = document.getElementById("gameOverOverlay");
+const gameOverTitle = document.getElementById("gameOverTitle");
+const gameOverMsg = document.getElementById("gameOverMsg");
 const winOverlay = document.getElementById("winOverlay");
 
 /* ── Game state ──────────────────────── */
@@ -199,6 +201,41 @@ function getEmptyCells() {
   return cells;
 }
 
+function getGameOverText(maxVal) {
+  if (maxVal <= 2) return {
+    title: "Back to the drawing board",
+    msg: "Every empire starts with a single brick. Try again!"
+  };
+  if (maxVal <= 4) return {
+    title: "The foundation crumbled",
+    msg: "You built some walls, but the structure didn't hold. Keep stacking!"
+  };
+  if (maxVal <= 8) return {
+    title: "The garage is closed",
+    msg: "Great ideas start in garages. Yours just needs another shot."
+  };
+  if (maxVal <= 16) return {
+    title: "Office shutdown",
+    msg: "The lease expired, but the ambition didn't. Come back stronger!"
+  };
+  if (maxVal <= 32) return {
+    title: "The fort has fallen",
+    msg: "You built something real. Dust off and fortify again."
+  };
+  if (maxVal <= 64) return {
+    title: "The tower collapsed",
+    msg: "You reached great heights. The view from the top awaits you."
+  };
+  if (maxVal <= 128) return {
+    title: "The citadel stands... barely",
+    msg: "So close to greatness. One more push and you'll build your Polis."
+  };
+  return {
+    title: "Almost legendary",
+    msg: "You've seen what's possible. Now go build that empire."
+  };
+}
+
 function spawnRandom(forceValue) {
   const empty = getEmptyCells();
   if (!empty.length) return null;
@@ -366,6 +403,10 @@ function doMove(direction) {
       winOverlay.classList.add("visible");
     }
     if (!canMove()) {
+      const maxVal = Math.max(...grid.flat());
+      const { title, msg } = getGameOverText(maxVal);
+      gameOverTitle.textContent = title;
+      gameOverMsg.textContent = msg;
       gameOverOverlay.classList.add("visible");
     }
 
