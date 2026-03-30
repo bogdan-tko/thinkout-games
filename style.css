@@ -360,6 +360,11 @@ body {
   line-height: 1;
   margin-bottom: 4px;
 }
+.onboarding-hero-img {
+  height: 64px;
+  object-fit: contain;
+  margin-bottom: 4px;
+}
 .onboarding-slide h2 {
   font-size: 20px;
   font-weight: 700;

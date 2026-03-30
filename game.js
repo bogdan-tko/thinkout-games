@@ -1,9 +1,9 @@
 /* ── Tile config ─────────────────────── */
 const TILES = {
-  2: { name: "Brick", emoji: "🧱" },
-  4: { name: "Wall", emoji: "🪨" },
-  8: { name: "Garage", emoji: "🔧" },
-  16: { name: "Office", emoji: "🏢" },
+  2: { name: "Brick", img: "public/objects/brick.png" },
+  4: { name: "Wall", img: "public/objects/wall.png" },
+  8: { name: "Garage", img: "public/objects/garage.png" },
+  16: { name: "Office", img: "public/objects/office.png" },
   32: { name: "Fort", img: "public/objects/fort.png" },
   64: { name: "Tower", img: "public/objects/tower.png" },
   128: { name: "Citadel", img: "public/objects/citadel.png" },
