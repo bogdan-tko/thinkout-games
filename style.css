@@ -77,7 +77,7 @@ body {
   gap: 12px;
 }
 .logo {
-  height: 36px;
+  height: 20px;
 }
 .tagline {
   font-size: 14px;
@@ -291,26 +291,10 @@ body {
   justify-content: center;
 }
 
-/* ── Hint & Footer ───────────────────── */
+/* ── Hint ────────────────────────────── */
 .hint {
   text-align: center;
   color: #a1a1aa;
   font-size: 14px;
   margin-top: 12px;
-}
-#footer {
-  margin-top: 24px;
-}
-.footer-box {
-  background: #27272a;
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  color: #a1a1aa;
-  font-size: 14px;
-}
-.footer-box a {
-  color: #fbc73c;
-  text-decoration: none;
-  font-weight: 600;
 }
