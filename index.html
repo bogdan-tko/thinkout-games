@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no"
     />
-    <title>ThinkOut 2048 — Build your business. Brick by brick.</title>
+    <title>ThinkOut — Build your business. Brick by brick.</title>
     <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -17,22 +17,16 @@
         <div class="header-left">
           <div class="logo-row">
             <img src="public/logo.svg" alt="ThinkOut" class="logo" />
+            o
           </div>
           <p class="tagline">Build your business. Brick by brick.</p>
         </div>
         <button id="newGameBtn" class="btn-new-game">New Game</button>
       </header>
 
-      <!-- Score -->
-      <div id="scoreBar">
-        <div class="score-box">
-          <span class="score-label">SCORE</span>
-          <span id="score" class="score-value">0</span>
-        </div>
-        <div class="score-box">
-          <span class="score-label">BEST</span>
-          <span id="best" class="score-value">0</span>
-        </div>
+      <!-- Progress -->
+      <div id="progressBar">
+        <div class="progress-track" id="progressTrack"></div>
       </div>
 
       <!-- Board -->

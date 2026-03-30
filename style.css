@@ -100,32 +100,69 @@ body {
   background: #3f3f46;
 }
 
-/* ── Score ───────────────────────────── */
-#scoreBar {
-  display: flex;
-  gap: 12px;
+/* ── Progress Bar ────────────────────── */
+#progressBar {
+  background: #27272a;
+  border-radius: 10px;
+  padding: 10px 14px;
   margin-bottom: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
-.score-box {
-  flex: 1;
-  background: #3f3f46;
-  border-radius: 8px;
-  padding: 8px 16px;
-  text-align: center;
+#progressBar::-webkit-scrollbar {
+  display: none;
 }
-.score-label {
-  display: block;
-  font-size: 11px;
+.progress-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-width: max-content;
+}
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 44px;
+  position: relative;
+}
+.progress-emoji {
+  font-size: 20px;
+  line-height: 1;
+  transition: transform 300ms ease, filter 300ms ease;
+  filter: grayscale(1) opacity(0.35);
+}
+.progress-step.reached .progress-emoji {
+  filter: grayscale(0) opacity(1);
+  transform: scale(1.15);
+}
+.progress-step.current .progress-emoji {
+  filter: grayscale(0) opacity(1);
+  transform: scale(1.3);
+}
+.progress-name {
+  font-size: 9px;
   font-weight: 600;
-  color: #a1a1aa;
-  letter-spacing: 1.5px;
-  margin-bottom: 2px;
+  color: #52525b;
+  letter-spacing: 0.02em;
+  transition: color 300ms ease;
 }
-.score-value {
-  display: block;
-  font-size: 28px;
-  font-weight: 700;
+.progress-step.reached .progress-name {
+  color: #a1a1aa;
+}
+.progress-step.current .progress-name {
   color: #fff;
+}
+.progress-connector {
+  width: 16px;
+  height: 2px;
+  background: #3f3f46;
+  flex-shrink: 0;
+  transition: background 300ms ease;
+}
+.progress-connector.filled {
+  background: #fbc73c;
 }
 
 /* ── Board ───────────────────────────── */
@@ -199,34 +236,26 @@ body {
   color: #27272a;
 }
 .tile[data-value="8"] {
-  background: #fef08a;
-  color: #27272a;
-}
-.tile[data-value="16"] {
   background: #fde047;
   color: #27272a;
 }
-.tile[data-value="32"] {
+.tile[data-value="16"] {
   background: #eab308;
   color: #fff;
 }
-.tile[data-value="64"] {
-  background: #84cc16;
-  color: #fff;
-}
-.tile[data-value="128"] {
+.tile[data-value="32"] {
   background: #ec4899;
   color: #fff;
 }
-.tile[data-value="256"] {
+.tile[data-value="64"] {
   background: #a855f7;
   color: #fff;
 }
-.tile[data-value="512"] {
+.tile[data-value="128"] {
   background: #f59e0b;
   color: #fff;
 }
-.tile[data-value="1024"] {
+.tile[data-value="256"] {
   background: #0ea5e9;
   color: #fff;
   border: 2px solid #fff;

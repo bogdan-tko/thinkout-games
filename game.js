@@ -2,14 +2,12 @@
 const TILES = {
   2: { name: "Brick", emoji: "🧱" },
   4: { name: "Wall", emoji: "🪨" },
-  8: { name: "Room", emoji: "🚪" },
-  16: { name: "Garage", emoji: "🔧" },
-  32: { name: "Office", emoji: "🏢" },
-  64: { name: "HQ", emoji: "🏛️" },
-  128: { name: "Fort", emoji: "🏰" },
-  256: { name: "Tower", emoji: "🗼" },
-  512: { name: "Citadel", emoji: "🏯" },
-  1024: { name: "Polis", emoji: "🌆" },
+  8: { name: "Garage", emoji: "🔧" },
+  16: { name: "Office", emoji: "🏢" },
+  32: { name: "Fort", emoji: "🏰" },
+  64: { name: "Tower", emoji: "🗼" },
+  128: { name: "Citadel", emoji: "🏯" },
+  256: { name: "Polis", emoji: "🌆" },
 };
 
 /* ── Constants ───────────────────────── */
@@ -20,22 +18,22 @@ const SLIDE_MS = 100;
 const MERGE_MS = 150;
 const NEW_MS = 200;
 const STORAGE_KEY = "thinkout1024";
-const BEST_KEY = "thinkout1024_best";
 
 /* Directions: [dr, dc] */
 const DIR = { up: [-1, 0], right: [0, 1], down: [1, 0], left: [0, -1] };
 
+/* ── Progression order (for progress bar) */
+const PROGRESSION = [2, 4, 8, 16, 32, 64, 128, 256];
+
 /* ── DOM refs ────────────────────────── */
 const board = document.getElementById("board");
-const scoreEl = document.getElementById("score");
-const bestEl = document.getElementById("best");
+const progressTrack = document.getElementById("progressTrack");
 const gameOverOverlay = document.getElementById("gameOverOverlay");
 const winOverlay = document.getElementById("winOverlay");
 
 /* ── Game state ──────────────────────── */
 let grid; // 4x4 array of values (0 = empty)
 let score;
-let bestScore;
 let won;
 let keepPlaying;
 let cellSize;
@@ -88,21 +86,67 @@ function clearAnimTiles() {
     .forEach((el) => el.remove());
 }
 
+/* ── Progress bar ────────────────────── */
+function buildProgressBar() {
+  progressTrack.innerHTML = "";
+  PROGRESSION.forEach((val, i) => {
+    const cfg = TILES[val];
+    const step = document.createElement("div");
+    step.className = "progress-step";
+    step.dataset.value = val;
+    step.innerHTML =
+      `<span class="progress-emoji">${cfg.emoji}</span>` +
+      `<span class="progress-name">${cfg.name}</span>`;
+    progressTrack.appendChild(step);
+
+    if (i < PROGRESSION.length - 1) {
+      const conn = document.createElement("div");
+      conn.className = "progress-connector";
+      conn.dataset.index = i;
+      progressTrack.appendChild(conn);
+    }
+  });
+}
+
+function updateProgressBar() {
+  // Find highest tile on the board
+  let highest = 0;
+  for (let r = 0; r < SIZE; r++)
+    for (let c = 0; c < SIZE; c++)
+      if (grid[r][c] > highest) highest = grid[r][c];
+
+  const highestIdx = PROGRESSION.indexOf(highest);
+
+  // Update steps
+  const steps = progressTrack.querySelectorAll(".progress-step");
+  steps.forEach((step, i) => {
+    step.classList.remove("reached", "current");
+    if (i < highestIdx) step.classList.add("reached");
+    else if (i === highestIdx) step.classList.add("current");
+  });
+
+  // Update connectors
+  const conns = progressTrack.querySelectorAll(".progress-connector");
+  conns.forEach((conn, i) => {
+    conn.classList.toggle("filled", i < highestIdx);
+  });
+
+  // Auto-scroll to show current step
+  const currentStep = progressTrack.querySelector(".progress-step.current");
+  if (currentStep) {
+    currentStep.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }
+}
+
 /* ── Persistence ─────────────────────── */
 function saveGame() {
   localStorage.setItem(
     STORAGE_KEY,
     JSON.stringify({ grid, score, won, keepPlaying }),
   );
-  if (score > bestScore) {
-    bestScore = score;
-    localStorage.setItem(BEST_KEY, String(bestScore));
-  }
-  bestEl.textContent = bestScore;
 }
 
 function loadGame() {
-  bestScore = parseInt(localStorage.getItem(BEST_KEY) || "0", 10);
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
     try {
@@ -135,7 +179,6 @@ function renderStaticTiles() {
 
 function addScore(points) {
   score += points;
-  scoreEl.textContent = score;
 }
 
 /* ── Core game logic ─────────────────── */
@@ -307,8 +350,11 @@ function doMove(direction) {
       }, NEW_MS);
     }
 
+    // Update progress
+    updateProgressBar();
+
     // Check win / game over
-    const hasWin = grid.some((row) => row.some((v) => v >= 1024));
+    const hasWin = grid.some((row) => row.some((v) => v >= 256));
     if (hasWin && !won && !keepPlaying) {
       won = true;
       winOverlay.classList.add("visible");
@@ -384,6 +430,7 @@ function onTouchEnd(e) {
 /* ── Init ────────────────────────────── */
 function init() {
   calcCellSize();
+  buildProgressBar();
 
   if (!loadGame()) {
     grid = emptyGrid();
@@ -397,9 +444,8 @@ function init() {
   gameOverOverlay.classList.remove("visible");
   if (won && !keepPlaying) winOverlay.classList.add("visible");
   else winOverlay.classList.remove("visible");
-  scoreEl.textContent = score;
-  bestEl.textContent = bestScore;
   renderStaticTiles();
+  updateProgressBar();
 
   document.addEventListener("keydown", onKeyDown);
   board.addEventListener("touchstart", onTouchStart, { passive: true });
@@ -417,10 +463,10 @@ function newGame() {
   score = 0;
   won = false;
   keepPlaying = false;
-  scoreEl.textContent = 0;
   spawnRandom(2);
   spawnRandom(2);
   renderStaticTiles();
+  updateProgressBar();
   saveGame();
 }
 
