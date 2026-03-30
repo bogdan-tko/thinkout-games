@@ -484,11 +484,11 @@ function doMove(direction) {
     const hasWin = grid.some((row) => row.some((v) => v >= 256));
     if (hasWin) {
       won = true;
-      winOverlay.classList.add("visible");
+      winOverlay.classList.remove("hidden");
     } else if (!canMove()) {
       const { msg } = getGameOverText();
       gameOverMsg.textContent = msg;
-      gameOverOverlay.classList.add("visible");
+      gameOverOverlay.classList.remove("hidden");
     }
 
     saveGame();
@@ -570,9 +570,9 @@ function init() {
     spawnRandom(2);
   }
 
-  gameOverOverlay.classList.remove("visible");
-  if (won) winOverlay.classList.add("visible");
-  else winOverlay.classList.remove("visible");
+  gameOverOverlay.classList.add("hidden");
+  if (won) winOverlay.classList.remove("hidden");
+  else winOverlay.classList.add("hidden");
   renderStaticTiles();
   updateProgressBar();
 
@@ -586,8 +586,8 @@ function newGame() {
   busy = false;
   clearAnimTiles();
   clearStaticTiles();
-  gameOverOverlay.classList.remove("visible");
-  winOverlay.classList.remove("visible");
+  gameOverOverlay.classList.add("hidden");
+  winOverlay.classList.add("hidden");
   grid = emptyGrid();
   score = 0;
   won = false;
@@ -641,6 +641,7 @@ function showToast(message) {
 
 /* ── Button handlers ─────────────────── */
 document.getElementById("retryBtn").onclick = newGame;
+document.getElementById("playAgainWinBtn").onclick = newGame;
 document.getElementById("shareGameOverBtn").onclick = shareResults;
 document.getElementById("shareWinBtn").onclick = shareResults;
 

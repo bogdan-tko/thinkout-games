@@ -187,40 +187,6 @@ body {
   color: #71717a;
 }
 
-/* ── Overlays ────────────────────────── */
-.overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 50;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: rgba(39, 39, 42, 0.7);
-  border-radius: 12px;
-  backdrop-filter: blur(4px);
-}
-.overlay.visible { display: flex; }
-.overlay-content { text-align: center; color: #fff; }
-.overlay-content h2 { font-size: 36px; margin-bottom: 8px; }
-.overlay-msg {
-  font-size: 15px;
-  color: #a1a1aa;
-  margin-bottom: 20px;
-  line-height: 1.4;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.overlay-buttons { display: flex; gap: 12px; justify-content: center; }
-.overlay-link {
-  display: inline-block;
-  margin-top: 16px;
-  color: #a1a1aa;
-  font-size: 14px;
-  text-decoration: underline;
-  transition: color 200ms ease;
-}
-.overlay-link:hover { color: #fff; }
 
 /* ── Onboarding (game-specific) ─────── */
 .onboarding-tax-preview { display: flex; justify-content: center; margin-bottom: 12px; }

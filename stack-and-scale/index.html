@@ -43,29 +43,32 @@
         <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
         <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
         <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+      </div>
 
-        <!-- Overlays -->
-        <div id="gameOverOverlay" class="overlay">
-          <div class="overlay-content">
-            <h2 id="gameOverTitle">Under construction</h2>
-            <p id="gameOverMsg" class="overlay-msg"></p>
-            <div class="overlay-buttons">
-              <button id="shareGameOverBtn" class="btn-new-game">Share</button>
-              <button id="retryBtn" class="btn-new-game">Try again</button>
-              <a href="/" class="btn-new-game" style="text-align:center;">Back to games</a>
-            </div>
+      <!-- Game Over Overlay -->
+      <div id="gameOverOverlay" class="result-overlay hidden">
+        <div class="result-content">
+          <h2 id="gameOverTitle">Under construction</h2>
+          <p id="gameOverMsg" class="result-msg"></p>
+          <div class="result-buttons">
+            <button id="shareGameOverBtn" class="btn">Share</button>
+            <button id="retryBtn" class="btn btn-outline">Try again</button>
+            <a href="/" class="btn btn-outline">Back to games</a>
           </div>
         </div>
-        <div id="winOverlay" class="overlay">
-          <div class="overlay-content">
-            <h2>Solid ground</h2>
-            <p class="overlay-msg">
-              Foundation laid. Business built. <br />You're a true builder.
-            </p>
-            <div class="overlay-buttons">
-              <button id="shareWinBtn" class="btn-new-game">Share</button>
-              <a href="/" class="btn-new-game" style="text-align:center;">Back to games</a>
-            </div>
+      </div>
+
+      <!-- Win Overlay -->
+      <div id="winOverlay" class="result-overlay hidden">
+        <div class="result-content">
+          <h2>Solid ground</h2>
+          <p class="result-msg">
+            Foundation laid. Business built.<br />You're a true builder.
+          </p>
+          <div class="result-buttons">
+            <button id="shareWinBtn" class="btn">Share</button>
+            <button id="playAgainWinBtn" class="btn btn-outline">Play again</button>
+            <a href="/" class="btn btn-outline">Back to games</a>
           </div>
         </div>
       </div>

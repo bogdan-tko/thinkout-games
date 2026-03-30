@@ -203,43 +203,7 @@ body {
   to { opacity: 0; transform: translateY(-8px); }
 }
 
-/* ── Result overlay ──────────────────── */
-.result-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(244, 244, 245, 0.92);
-  backdrop-filter: blur(6px);
-  opacity: 1;
-  transition: opacity 400ms ease;
-}
-.result-overlay.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-.result-content {
-  text-align: center;
-  max-width: 380px;
-  width: calc(100% - 32px);
-  animation: resultIn 400ms ease;
-}
-@keyframes resultIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.result-content h2 {
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-.result-msg {
-  font-size: 15px;
-  color: #71717a;
-  margin-bottom: 24px;
-  line-height: 1.5;
-}
+/* ── Result overlay (game-specific) ─── */
 .result-board {
   display: flex;
   flex-direction: column;
@@ -259,22 +223,6 @@ body {
 .result-tile.correct { background: #16a34a; }
 .result-tile.present { background: #eab308; }
 .result-tile.absent { background: #27272a; }
-.result-buttons {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-}
-.result-link {
-  display: inline-block;
-  margin-top: 16px;
-  color: #a1a1aa;
-  font-size: 14px;
-  text-decoration: underline;
-  transition: color 200ms ease;
-}
-.result-link:hover {
-  color: #27272a;
-}
 
 /* ── Responsive ──────────────────────── */
 @media (max-height: 680px) {
