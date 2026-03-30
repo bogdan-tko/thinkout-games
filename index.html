@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>ThinkOut · 10 Years of Building</title>
     <link
       rel="apple-touch-icon"
@@ -65,9 +65,7 @@
         gap: 16px;
       }
       .game-card {
-        display: flex;
-        align-items: center;
-        gap: 20px;
+        display: block;
         background: #27272a;
         border-radius: 14px;
         padding: 24px;
@@ -81,45 +79,36 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
       }
-      .game-card.disabled {
-        opacity: 0.4;
-        pointer-events: none;
-      }
-      .game-icon {
-        font-size: 40px;
-        line-height: 1;
-        flex-shrink: 0;
-        width: 56px;
-        height: 56px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #3f3f46;
-        border-radius: 12px;
-      }
-      .game-info {
-        flex: 1;
-      }
       .game-name {
         font-size: 18px;
         font-weight: 700;
         color: #fff;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
+      }
+      .game-subtitle {
+        font-size: 14px;
+        font-weight: 600;
+        color: #a1a1aa;
+        margin-bottom: 10px;
       }
       .game-desc {
         font-size: 13px;
-        color: #a1a1aa;
-        line-height: 1.4;
-      }
-      .game-badge {
-        font-size: 11px;
-        font-weight: 600;
         color: #71717a;
-        background: #3f3f46;
-        padding: 4px 10px;
-        border-radius: 20px;
-        margin-top: 8px;
+        line-height: 1.5;
+        margin-bottom: 16px;
+      }
+      .game-play {
         display: inline-block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #fff;
+        border: 2px solid #3f3f46;
+        border-radius: 8px;
+        padding: 8px 20px;
+        transition: border-color 200ms ease;
+      }
+      .game-card:hover .game-play {
+        border-color: #71717a;
       }
       .home-footer {
         margin-top: 48px;
@@ -143,35 +132,35 @@
 
       <div class="games-grid">
         <a href="/brick-by-brick/" class="game-card">
-          <div class="game-icon">🧱</div>
-          <div class="game-info">
-            <div class="game-name">Brick by Brick</div>
-            <div class="game-desc">
-              Merge tiles and build your business from a single brick to a
-              thriving Polis.
-            </div>
+          <div class="game-name">Stack & Scale</div>
+          <div class="game-subtitle">Start small. Merge smart. Build big.</div>
+          <div class="game-desc">
+            Start with small wins. Combine them into bigger ones. Keep scaling
+            until there's no room left... or until you've built something no one
+            saw coming.
           </div>
+          <span class="game-play">Play</span>
         </a>
 
         <a href="/connections/" class="game-card">
-          <div class="game-icon">🔗</div>
-          <div class="game-info">
-            <div class="game-name">Connections</div>
-            <div class="game-desc">
-              Find the four groups of four. How well do you know the builder's
-              vocabulary?
-            </div>
+          <div class="game-name">Decision Making</div>
+          <div class="game-subtitle">Analyze. Connect. Decide.</div>
+          <div class="game-desc">
+            You make a hundred decisions a day — this time, sixteen words and
+            four hidden groups. Sort through the noise and find what connects.
           </div>
+          <span class="game-play">Play</span>
         </a>
 
         <a href="/wordle/" class="game-card">
-          <div class="game-icon">🔤</div>
-          <div class="game-info">
-            <div class="game-name">Wordle</div>
-            <div class="game-desc">
-              Guess the builder's word in six tries. Every letter counts.
-            </div>
+          <div class="game-name">Trial & Error</div>
+          <div class="game-subtitle">Not enough data? Make your best guess.</div>
+          <div class="game-desc">
+            You won't have all the answers on day one. Six guesses to find a
+            five-letter word — each attempt reveals a little more. Sounds like
+            building a business, doesn't it?
           </div>
+          <span class="game-play">Play</span>
         </a>
       </div>
 
