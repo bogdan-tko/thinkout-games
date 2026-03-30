@@ -578,7 +578,7 @@ window.addEventListener("resize", () => {
 
 /* ── Onboarding ─────────────────────── */
 const ONBOARDING_KEY = "thinkout_onboarded";
-const TOTAL_SLIDES = 5;
+const TOTAL_SLIDES = 3;
 let currentSlide = 0;
 
 function showOnboarding() {
