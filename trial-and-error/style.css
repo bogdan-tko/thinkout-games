@@ -144,6 +144,7 @@ body {
   cursor: pointer;
   transition: background 200ms ease, color 200ms ease, border-color 200ms ease, transform 60ms ease;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .key:active {
   transform: scale(0.95);
