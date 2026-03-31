@@ -570,9 +570,18 @@ function init() {
     spawnRandom(2);
   }
 
-  gameOverOverlay.classList.add("hidden");
-  if (won) winOverlay.classList.remove("hidden");
-  else winOverlay.classList.add("hidden");
+  if (won) {
+    winOverlay.classList.remove("hidden");
+    gameOverOverlay.classList.add("hidden");
+  } else if (!canMove()) {
+    const { msg } = getGameOverText();
+    gameOverMsg.textContent = msg;
+    gameOverOverlay.classList.remove("hidden");
+    winOverlay.classList.add("hidden");
+  } else {
+    gameOverOverlay.classList.add("hidden");
+    winOverlay.classList.add("hidden");
+  }
   renderStaticTiles();
   updateProgressBar();
 
