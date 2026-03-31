@@ -63,6 +63,11 @@ body {
   word-break: break-word;
   min-width: 0;
 }
+@media (min-width: 500px) {
+  .word-tile {
+    font-size: 15px;
+  }
+}
 .word-tile:hover {
   background: #3f3f46;
 }

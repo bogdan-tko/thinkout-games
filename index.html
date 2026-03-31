@@ -95,9 +95,6 @@
         transition: background 200ms ease;
         cursor: pointer;
       }
-      .game-card:hover {
-        background: #1c1c1e;
-      }
       .game-name {
         font-size: 20px;
         font-weight: 700;
@@ -131,8 +128,13 @@
         transition: background 200ms ease;
         align-self: flex-start;
       }
-      .game-card:hover .game-play {
-        background: #fde047;
+      @media (hover: hover) {
+        .game-card:hover {
+          background: #1c1c1e;
+        }
+        .game-card:hover .game-play {
+          background: #fde047;
+        }
       }
       @media (max-width: 680px) {
         .games-grid {
