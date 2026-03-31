@@ -254,6 +254,10 @@ function clearStaticTiles() {
       }
     }
   }
+}
+
+function clearAllStaticTiles() {
+  clearStaticTiles();
   staticTaxEls.forEach((t) => t.el.remove());
   staticTaxEls = [];
 }
@@ -610,7 +614,7 @@ function init() {
 function newGame() {
   busy = false;
   clearAnimTiles();
-  clearStaticTiles();
+  clearAllStaticTiles();
   gameOverOverlay.classList.add("hidden");
   winOverlay.classList.add("hidden");
   grid = emptyGrid();
