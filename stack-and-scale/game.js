@@ -637,7 +637,7 @@ function shareResults() {
       if (grid[r][c] > highest) highest = grid[r][c];
 
   const highestName = TILES[highest] ? TILES[highest].name : highest;
-  const text = `ThinkOut · Stack & Scale\nReached ${highestName} in ${moveCount} moves\n\n${location.origin}/stack-and-scale`;
+  const text = `ThinkOut · Stack & Scale\nReached ${highestName} in ${moveCount} moves\n\n${location.origin}/stack-and-scale/`;
 
   if (navigator.share) {
     navigator.share({ text }).catch(() => copyToClipboard(text));

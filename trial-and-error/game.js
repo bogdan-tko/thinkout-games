@@ -684,7 +684,7 @@ function shareResults() {
     .map(({ result }) => result.map((r) => emojiMap[r]).join(""))
     .join("\n");
 
-  const text = `ThinkOut · Trial & Error ${guesses.length}/${MAX_ROWS}\n\n${rows}\n\n${location.origin}/trial-and-error`;
+  const text = `ThinkOut · Trial & Error ${guesses.length}/${MAX_ROWS}\n\n${rows}\n\n${location.origin}/trial-and-error/`;
 
   if (navigator.share) {
     navigator.share({ text }).catch(() => {
